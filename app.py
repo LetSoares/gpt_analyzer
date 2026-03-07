@@ -148,68 +148,81 @@ div[data-testid="stTabs"] button[aria-selected="true"] {
 # ─── Lógica de extração (idêntica ao seu Python) ──────────────────────────────
 
 def extract(response):
-    queries = []
-    fontes_lidas = []
-    fontes_citadas = []
+  queries = []
+  fontes_lidas = []
+  fontes_citadas = []
 
-    for item in response.output:
-        if item.type == "web_search_call":
-            if item.action.type == "search":
-                for query in item.action.queries:
-                    if query not in queries:
-                        queries.append(query)
-                for source in item.action.sources:
-                    if source.url not in fontes_lidas:
-                        fontes_lidas.append(source.url)
-            elif item.action.type == "open_page":
-                if item.action.url not in fontes_lidas:
-                    fontes_lidas.append(item.action.url)
+  for item in response.output:
+    if item.type == "web_search_call":
+      if item.action.type == 'search':
+        for query in item.action.queries:
+          queries.append(query)
+        for source in item.action.sources:
+          if source.url not in fontes_lidas:
+           fontes_lidas.append(source.url)
+      elif item.action.type == 'open_page':
+        if item.action.url not in fontes_lidas:
+          fontes_lidas.append(item.action.url)
 
-    for item in response.output:
-        if item.type == "message":
-            for annotation in item.content[0].annotations:
-                if annotation.type == "url_citation":
-                    if annotation.url not in fontes_citadas:
-                        fontes_citadas.append(annotation.url)
+  
+  for item in response.output:
+    if item.type == "message":
+        for annotation in item.content[0].annotations:
+            if annotation.type == "url_citation":
+                if annotation.url not in fontes_citadas:
+                    fontes_citadas.append(annotation.url)
 
-    urls_citadas = [re.sub(r'\?utm_source=openai$', '', f) for f in fontes_citadas]
-    fontes_apenas_lidas = [f for f in fontes_lidas if f not in urls_citadas]
+  urls_citadas = []
+  for fonte in fontes_citadas:
+    url_limpa = re.sub(r'\?utm_source=openai$', '', fonte)
+    urls_citadas.append(url_limpa)
 
-    resposta_final = ""
-    for item in reversed(response.output):
-        if item.type == "message":
-            resposta_final = item.content[0].text
-            break
+  fontes_apenas_lidas = []
+  for f in fontes_lidas:
+    if f not in urls_citadas:
+      fontes_apenas_lidas.append(f)
 
-    return {
-        "resposta": resposta_final,
-        "queries": queries,
-        "fontes_lidas": fontes_apenas_lidas,
-        "fontes_citadas": fontes_citadas,
-    }
+
+  resposta_final = resp.output[-1].content[0].text
+
+  return {"resposta": resposta_final,
+          "queries": queries,
+          "fontes_lidas": fontes_apenas_lidas,
+          "fontes_citadas": fontes_citadas}
 
 
 def conta_dom(lista_de_fontes):
-    dominios = {}
-    for fonte in lista_de_fontes:
-        url = fonte if isinstance(fonte, str) else fonte.get("url", "")
-        if not url:
-            continue
-        url = re.sub(r'\?utm_source=openai$', '', url)
-        url = re.sub(r'\?utm_source=openai&', '?', url)
-        url = re.sub(r'&utm_source=openai', '', url)
-        dominio = urlparse(url).netloc
-        if dominio.startswith("www."):
-            dominio = dominio[4:]
-        if not dominio:
-            continue
-        if dominio not in dominios:
-            dominios[dominio] = {"quantidade": 0, "urls": []}
-        dominios[dominio]["quantidade"] += 1
-        if url not in dominios[dominio]["urls"]:
-            dominios[dominio]["urls"].append(url)
+  dominios_citados = {}
 
-    return sorted(dominios.items(), key=lambda x: x[1]["quantidade"], reverse=True)
+  for fonte in lista_de_fontes:
+    url_bruta = fonte['url'] if isinstance(fonte, dict) else fonte
+    if not url_bruta:
+          continue
+    url = re.sub(r'\?utm_source=openai$', '', url_bruta)
+    url = re.sub(r'\?utm_source=openai&', '?', url)
+    url = re.sub(r'&utm_source=openai', '', url)
+
+    dominio = urlparse(url).netloc
+    if dominio.startswith('www.'):
+      dominio = dominio[4:]
+    if not dominio:
+      continue
+
+    if dominio not in dominios_citados:
+      dominios_citados[dominio] = {
+          "quantidade" : 0,
+          "urls": set()
+      }
+    dominios_citados[dominio]["quantidade"] += 1
+    dominios_citados[dominio]["urls"].add(url)
+
+  dominios_ordenados = sorted(
+    dominios_citados.items(),
+    key=lambda item: item[1]['quantidade'],
+    reverse=True
+)
+
+  return dominios_ordenados
 
 
 # ─── UI ───────────────────────────────────────────────────────────────────────
