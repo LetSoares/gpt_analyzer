@@ -63,13 +63,6 @@ st.markdown("""
             font-family: 'GCartumRegular', serif !important;
         }
 
-        /* ── Placeholder ── */
-        [data-testid="stTextInput"] input::placeholder,
-        [data-testid="stTextArea"] textarea::placeholder {
-            color: rgba(255, 255, 255, 0.4) !important;
-            opacity: 1 !important;
-        }
-
         /* ── Botão ── */
         [data-testid="stButton"] button {
             background-color: #e72a1c !important;
