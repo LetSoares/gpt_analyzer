@@ -27,7 +27,7 @@ st.markdown(f"""
         }}
     </style>
     <div style="text-align: center; padding: 20px 0 5px 0;">
-        <h1 style="margin: 0; font-family: 'GCartumBold', serif; font-size: 2rem;">
+        <h1 style="margin: 0; font-family: 'GCartumBold', serif; font-size: 2rem; color = '#060638'">
             🤖🔎 ChatGPT Response Analyzer
         </h1>
         <p style="margin: 2px 0 0 0; font-family: 'GCartumRegular', serif; font-size: 0.7rem; color: #060638; opacity: 0.7;">
