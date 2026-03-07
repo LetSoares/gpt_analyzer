@@ -40,6 +40,14 @@ st.markdown(f"""
         span[data-testid] {{
             font-family: sans-serif !important;
         }}
+        
+        /* ── Ícones dos toggles ── */
+        [data-testid="stExpander"] summary svg,
+        [data-testid="stExpander"] summary span,
+        button[kind="expanderToggle"] *,
+        details summary * {{
+            font-family: sans-serif !important;
+        }}
 
         /* ── Labels dos inputs ── */
         [data-testid="stTextInput"] label,
