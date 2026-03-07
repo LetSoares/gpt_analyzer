@@ -106,7 +106,6 @@ def agrupa_por_dominio(fontes):
 
 # ─── UI ───────────────────────────────────────────────────────────────────────
 
-st.caption("gpt-5.4 · web_search · BR")
 st.divider()
 
 api_key = st.text_input("OpenAI API Key", type="password", placeholder="sk-...")
