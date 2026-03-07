@@ -11,6 +11,8 @@ def extract(response):
     queries = []
     fontes_lidas = []
     fontes_citadas = []
+    urls_lidas_vistas = set()
+    urls_citadas_vistas = set()
 
     for item in response.output:
         if item.type == "web_search_call":
@@ -18,22 +20,38 @@ def extract(response):
                 for query in item.action.queries:
                     queries.append(query)
                 for source in item.action.sources:
-                    if source.url not in fontes_lidas:
-                        fontes_lidas.append(source.url)
+                    if source.url not in urls_lidas_vistas:
+                        urls_lidas_vistas.add(source.url)
+                        fontes_lidas.append({
+                            "url":   source.url,
+                            "title": getattr(source, "title", None) or source.url,
+                        })
             elif item.action.type == "open_page":
-                if item.action.url not in fontes_lidas:
-                    fontes_lidas.append(item.action.url)
+                if item.action.url not in urls_lidas_vistas:
+                    urls_lidas_vistas.add(item.action.url)
+                    fontes_lidas.append({
+                        "url":   item.action.url,
+                        "title": getattr(item.action, "title", None) or item.action.url,
+                    })
 
     for item in response.output:
         if item.type == "message":
             for annotation in item.content[0].annotations:
                 if annotation.type == "url_citation":
-                    if annotation.url not in fontes_citadas:
-                        fontes_citadas.append(annotation.url)
+                    url_limpa = re.sub(r'\?utm_source=openai$', '', annotation.url)
+                    if url_limpa not in urls_citadas_vistas:
+                        urls_citadas_vistas.add(url_limpa)
+                        fontes_citadas.append({
+                            "url":   url_limpa,
+                            "title": getattr(annotation, "title", None) or url_limpa,
+                        })
 
-    urls_citadas = [re.sub(r'\?utm_source=openai$', '', f) for f in fontes_citadas]
-    fontes_apenas_lidas = [f for f in fontes_lidas if f not in urls_citadas]
 
+    fontes_apenas_lidas = [
+        f for f in fontes_lidas
+        if re.sub(r'\?utm_source=openai$', '', f["url"]) not in urls_citadas_vistas
+    ]
+    
     resposta_final = response.output[-1].content[0].text
 
     return {
@@ -44,30 +62,21 @@ def extract(response):
     }
 
 
-def conta_dom(lista_de_fontes):
-    dominios_citados = {}
-    for fonte in lista_de_fontes:
-        url_bruta = fonte["url"] if isinstance(fonte, dict) else fonte
-        if not url_bruta:
-            continue
-        url = re.sub(r'\?utm_source=openai$', '', url_bruta)
+def agrupa_por_dominio(fontes):
+    """Recebe lista de {"url", "title"} e agrupa por domínio."""
+    dominios = {}
+    for fonte in fontes:
+        url = re.sub(r'\?utm_source=openai$', '', fonte["url"])
         url = re.sub(r'\?utm_source=openai&', '?', url)
         url = re.sub(r'&utm_source=openai', '', url)
-        dominio = urlparse(url).netloc
-        if dominio.startswith("www."):
-            dominio = dominio[4:]
+        dominio = urlparse(url).netloc.replace("www.", "")
         if not dominio:
             continue
-        if dominio not in dominios_citados:
-            dominios_citados[dominio] = {"quantidade": 0, "urls": set()}
-        dominios_citados[dominio]["quantidade"] += 1
-        dominios_citados[dominio]["urls"].add(url)
+        if dominio not in dominios:
+            dominios[dominio] = []
+        dominios[dominio].append({"url": url, "title": fonte["title"]})
 
-    return sorted(
-        dominios_citados.items(),
-        key=lambda item: item[1]["quantidade"],
-        reverse=True,
-    )
+    return sorted(dominios.items(), key=lambda x: len(x[1]), reverse=True)
 
 
 # ─── UI ───────────────────────────────────────────────────────────────────────
@@ -109,34 +118,49 @@ if run:
                     input=prompt,
                 )
 
-                resultado = extract(resp)
-                dominios_lidos   = conta_dom(resultado["fontes_lidas"])
-                dominios_citados = conta_dom(resultado["fontes_citadas"])
+                r = extract(resp)
+                dominios_lidos = agrupa_por_dominio(r["fontes_lidas"])
 
                 st.success("Concluído!")
                 st.divider()
 
-                # Dicionário de resultados — fiel ao Colab
-                st.subheader("Dicionário de resultados")
-                st.json({
-                    "queries":        resultado["queries"],
-                    "fontes_lidas":   resultado["fontes_lidas"],
-                    "fontes_citadas": resultado["fontes_citadas"],
-                    "dominios_lidos": [
-                        {"dominio": d, "quantidade": v["quantidade"], "urls": list(v["urls"])}
-                        for d, v in dominios_lidos
-                    ],
-                    "dominios_citados": [
-                        {"dominio": d, "quantidade": v["quantidade"], "urls": list(v["urls"])}
-                        for d, v in dominios_citados
-                    ],
-                })
-
+                # ── 1. Resposta ───────────────────────────────────────────────
+                st.markdown("## Resposta")
+                st.markdown(r["resposta"])
                 st.divider()
-                st.subheader("Resposta")
-                st.markdown(resultado["resposta"])
 
-                # Debug — output bruto da API
+                # ── 2. Buscas realizadas ──────────────────────────────────────
+                st.markdown("## Buscas realizadas pelo modelo")
+                if r["queries"]:
+                    for q in r["queries"]:
+                        with st.expander(f"🔍 {q}"):
+                            st.write(q)
+                else:
+                    st.caption("Nenhuma busca identificada.")
+                st.divider()
+
+                # ── 3. Fontes citadas ─────────────────────────────────────────
+                st.markdown("## Fontes citadas")
+                if r["fontes_citadas"]:
+                    for fonte in r["fontes_citadas"]:
+                        with st.expander(fonte["title"]):
+                            st.markdown(f"[{fonte['url']}]({fonte['url']})")
+                else:
+                    st.caption("Nenhuma fonte citada identificada.")
+                st.divider()
+
+                # ── 4. Fontes lidas ───────────────────────────────────────────
+                st.markdown("## Fontes lidas")
+                if dominios_lidos:
+                    for dominio, paginas in dominios_lidos:
+                        label = f"🌐 {dominio} ({len(paginas)} página{'s' if len(paginas) > 1 else ''})"
+                        with st.expander(label):
+                            for p in paginas:
+                                st.markdown(f"- [{p['title']}]({p['url']})")
+                else:
+                    st.caption("Nenhuma fonte lida identificada.")
+
+                # ── Debug ─────────────────────────────────────────────────────
                 with st.expander("🐛 Output bruto da API"):
                     st.json(resp.model_dump())
 
