@@ -6,200 +6,131 @@ from openai import OpenAI
 st.set_page_config(page_title="GPT Response Analyzer", page_icon="🔍", layout="centered")
 
 # ─── Brand CSS ────────────────────────────────────────────────────────────────
-st.markdown("""
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap');
+logo = "assets/logo-leticia-.png"
+fonte = "assets/GCARTUM-BOLD.TTF"  
+title = "ChatGPT Response Analyzer"
 
-/* ── Tokens ── */
-:root {
-  --navy:   #060638;
-  --red:    #e72a1c;
-  --white:  #ffffff;
-  --off:    #f4f4f4;
-  --muted:  #8888aa;
-  --card:   #0b0b50;
-  --border: #1a1a7a;
-}
+def load_file_as_base64(path: str) -> str:
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
 
-/* ── Base ── */
-html, body, [data-testid="stAppViewContainer"] {
-  background: var(--white) !important;
-  color: var(--navy) !important;
-  font-family: 'DM Sans', sans-serif !important;
-}
 
-[data-testid="stHeader"] { background: transparent !important; }
-[data-testid="stToolbar"] { display: none !important; }
-[data-testid="stMain"] { background: var(--navy) !important; }
-[data-testid="stBottom"] { background: var(--navy) !important; }
-.stMainBlockContainer { padding-top: 2rem !important; }
-section[data-testid="stSidebar"] { background: #040428 !important; }
+def render_header():
+    # Carrega logo como base64
+    try:
+        logo_b64 = load_file_as_base64(LOGO_PATH)
+        logo_tag = f'<img src="data:image/png;base64,{logo_b64}" class="header-logo" alt="Logo" />'
+    except FileNotFoundError:
+        # Placeholder enquanto a logo não está disponível
+        logo_tag = '<div class="logo-placeholder">LOGO</div>'
 
-/* ── Hero header ── */
-.ls-hero {
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
-  padding: 2rem 0 1.2rem;
-  border-bottom: 2px solid var(--red);
-  margin-bottom: 0.5rem;
-}
-.ls-logo-text {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 3rem;
-  line-height: 0.95;
-  letter-spacing: 0.01em;
-  color: var(--white);
-}
-.ls-logo-text span { color: var(--red); }
-.ls-tagline {
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-top: 0.25rem;
-}
+    # Carrega fonte como base64
+    try:
+        font_b64 = load_file_as_base64(FONT_PATH)
+        font_face = f"""
+        @font-face {{
+            font-family: 'GCartum';
+            src: url('data:font/truetype;base64,{font_b64}') format('truetype');
+            font-weight: bold;
+        }}
+        """
+    except FileNotFoundError:
+        # Fallback para fonte serifada enquanto a fonte não está disponível
+        font_face = """
+        @font-face {
+            font-family: 'GCartum';
+            src: local('Georgia');
+        }
+        """
 
-/* ── Section titles ── */
-h1, h2, h3 {
-  font-family: 'Bebas Neue', sans-serif !important;
-  letter-spacing: 0.04em !important;
-  color: var(--white) !important;
-}
+    st.markdown(f"""
+    <style>
+        /* ── Reset do header padrão do Streamlit ── */
+        [data-testid="stHeader"] {{
+            display: none !important;
+        }}
 
-/* ── Labels ── */
-label, .stTextInput label, .stTextArea label {
-  font-size: 0.7rem !important;
-  letter-spacing: 0.14em !important;
-  text-transform: uppercase !important;
-  color: var(--muted) !important;
-  font-weight: 500 !important;
-}
+        /* ── Fonte customizada ── */
+        {font_face}
 
-/* ── Inputs ── */
-input[type="password"],
-input[type="text"],
-textarea {
-  background: var(--card) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: 6px !important;
-  color: var(--white) !important;
-  font-family: 'DM Sans', sans-serif !important;
-  font-size: 0.95rem !important;
-  caret-color: var(--red) !important;
-}
-input:focus, textarea:focus {
-  border-color: var(--red) !important;
-  box-shadow: 0 0 0 2px rgba(231,42,28,0.18) !important;
-}
+        /* ── Container principal do header ── */
+        .brand-header {{
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 40px;
+            background-color: #ffffff;
+            border-bottom: 3px solid #e72a1c;
+            box-shadow: 0 2px 12px rgba(6, 6, 56, 0.08);
+        }}
 
-/* ── Primary button ── */
-[data-testid="stButton"] > button {
-  background: var(--red) !important;
-  color: var(--white) !important;
-  border: none !important;
-  border-radius: 6px !important;
-  font-family: 'Bebas Neue', sans-serif !important;
-  font-size: 1.1rem !important;
-  letter-spacing: 0.1em !important;
-  padding: 0.6rem 1.4rem !important;
-  transition: background 0.15s, transform 0.1s !important;
-}
-[data-testid="stButton"] > button:hover {
-  background: #c42218 !important;
-  transform: translateY(-1px) !important;
-}
-[data-testid="stButton"] > button:active { transform: translateY(0) !important; }
+        /* ── Logo ── */
+        .header-logo {{
+            height: 52px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }}
 
-/* ── Divider ── */
-hr {
-  border: none !important;
-  border-top: 1px solid var(--border) !important;
-  margin: 1.4rem 0 !important;
-}
+        /* ── Placeholder da logo (remove quando tiver a imagem real) ── */
+        .logo-placeholder {{
+            height: 52px;
+            width: 120px;
+            background: #060638;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 0.15em;
+            border-radius: 4px;
+        }}
 
-/* ── Success / Error alerts ── */
-[data-testid="stAlert"] {
-  border-radius: 6px !important;
-  font-family: 'DM Sans', sans-serif !important;
-}
-div[data-baseweb="notification"][kind="positive"] {
-  background: rgba(231,42,28,0.12) !important;
-  border-left: 3px solid var(--red) !important;
-}
+        /* ── Título ── */
+        .header-title {{
+            font-family: 'GCartum', Georgia, serif;
+            font-size: 22px;
+            font-weight: bold;
+            color: #060638;
+            letter-spacing: 0.04em;
+            text-align: right;
+            line-height: 1.2;
+            margin: 0;
+        }}
 
-/* ── Markdown body ── */
-[data-testid="stMarkdownContainer"] p,
-[data-testid="stMarkdownContainer"] li {
-  color: #d0d0ee !important;
-  line-height: 1.7 !important;
-}
-[data-testid="stMarkdownContainer"] a {
-  color: var(--red) !important;
-  text-decoration: none !important;
-}
-[data-testid="stMarkdownContainer"] a:hover {
-  text-decoration: underline !important;
-}
+        /* ── Linha de destaque abaixo do título ── */
+        .header-title span {{
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: linear-gradient(90deg, #e72a1c, #060638);
+            margin-top: 5px;
+            border-radius: 2px;
+        }}
 
-/* ── Expanders ── */
-details {
-  background: var(--card) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: 8px !important;
-  margin-bottom: 0.6rem !important;
-  overflow: hidden !important;
-}
-details summary {
-  font-family: 'DM Sans', sans-serif !important;
-  font-size: 0.85rem !important;
-  font-weight: 500 !important;
-  color: var(--white) !important;
-  padding: 0.75rem 1rem !important;
-  cursor: pointer !important;
-  user-select: none !important;
-  list-style: none !important;
-}
-details summary:hover { color: var(--red) !important; }
-details[open] summary { border-bottom: 1px solid var(--border); }
-details > div { padding: 0.75rem 1rem 1rem !important; }
+        /* ── Padding do conteúdo para não ficar atrás do header fixo ── */
+        .main .block-container {{
+            padding-top: 90px !important;
+        }}
+    </style>
 
-/* ── Caption ── */
-.stCaptionContainer, small {
-  color: var(--muted) !important;
-  font-size: 0.75rem !important;
-}
+    <div class="brand-header">
+        {logo_tag}
+        <div class="header-title">
+            {APP_TITLE}
+            <span></span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
-/* ── JSON viewer ── */
-[data-testid="stJson"] {
-  background: #040428 !important;
-  border: 1px solid var(--border) !important;
-  border-radius: 6px !important;
-}
 
-/* ── Spinner ── */
-[data-testid="stSpinner"] { color: var(--red) !important; }
+# ── Chame esta função no topo do seu app ──
+render_header()
 
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--navy); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--red); }
-</style>
-""", unsafe_allow_html=True)
-
-# ─── Hero ─────────────────────────────────────────────────────────────────────
-st.markdown("""
-<div class="ls-hero">
-  <div>
-    <div class="ls-logo-text">letícia<br>s<span>oo</span>res</div>
-  </div>
-  <div style="margin-left:auto; text-align:right;">
-    <div style="font-family:'Bebas Neue',sans-serif; font-size:1.6rem; color:var(--red); letter-spacing:0.06em;">GPT Response Analyzer</div>
-    <div class="ls-tagline">gpt-5.4 · web_search · BR</div>
-  </div>
-</div>
-""", unsafe_allow_html=True)
 
 # ─── Extração — idêntica ao Colab ─────────────────────────────────────────────
 
