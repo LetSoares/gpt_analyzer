@@ -23,8 +23,8 @@ st.markdown("""
 
 /* ── Base ── */
 html, body, [data-testid="stAppViewContainer"] {
-  background: var(--navy) !important;
-  color: var(--white) !important;
+  background: var(--white) !important;
+  color: var(--navy) !important;
   font-family: 'DM Sans', sans-serif !important;
 }
 
