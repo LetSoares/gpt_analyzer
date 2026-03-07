@@ -67,6 +67,7 @@ st.markdown("""
         [data-testid="stTextInput"] input::placeholder,
         [data-testid="stTextArea"] textarea::placeholder {
             color: rgba(255, 255, 255, 0.4) !important;
+            opacity: 1 !important;
         }
 
         /* ── Botão ── */
@@ -162,7 +163,7 @@ def agrupa_por_dominio(fontes):
 
 api_key = st.text_input("OpenAI API Key", type="password", placeholder="sk-...")
 prompt  = st.text_area("Prompt", placeholder="Qual é o melhor banco para investir em 2026?", height=120)
-run     = st.button("→ Analisar", use_container_width=True)
+run     = st.button("Analisar", use_container_width=True)
 
 # ─── Execução ─────────────────────────────────────────────────────────────────
 
