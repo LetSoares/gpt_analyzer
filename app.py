@@ -23,7 +23,7 @@ st.markdown(f"""
         }}
         @font-face {{
             font-family: 'GCartumRegular';
-            src: url('data:font/truetype;base64,{font2_b64_reg}') format('truetype');
+            src: url('data:font/truetype;base64,{font_b64_reg}') format('truetype');
         }}
     </style>
     <div style="text-align: center; padding: 20px 0 5px 0;">
