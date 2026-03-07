@@ -1,4 +1,5 @@
 import re
+import base64 
 import streamlit as st
 from urllib.parse import urlparse
 from openai import OpenAI
