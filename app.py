@@ -34,7 +34,7 @@ st.markdown(f"""
             gpt-5.4 · web search breakdown · BR
         </p>
     </div>
-    <div style="text-align: center; padding: 20px 0 10px 0; border-bottom: 3px solid #e72a1c;">
+    <div style="text-align: center; padding: 10px 0 10px 0; border-bottom: 3px solid #e72a1c;">
 """, unsafe_allow_html=True)
 
 # ─── Extração — idêntica ao Colab ─────────────────────────────────────────────
