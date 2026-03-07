@@ -144,7 +144,7 @@ if run:
                         st.caption("Nenhuma fonte citada identificada.")
 
                 # ── 4. Fontes lidas ───────────────────────────────────────────
-                f"Fontes lidas ({len(r['fontes_lidas'])})":
+                f"Fontes lidas ({len(r['fontes_lidas'])})"
                     if dominios_lidos:
                         for dominio, paginas in dominios_lidos:
                             label = f"🌐 {dominio} ({len(paginas)} página{'s' if len(paginas) > 1 else ''})"
