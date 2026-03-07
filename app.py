@@ -28,12 +28,13 @@ st.markdown(f"""
     </style>
     <div style="text-align: center; padding: 20px 0 5px 0;">
         <h1 style="margin: 0; font-family: 'GCartumBold', serif; font-size: 2rem; color = '#060638'">
-            🤖🔎 ChatGPT Response Analyzer
+            🔎 ChatGPT Response Analyzer
         </h1>
         <p style="margin: 2px 0 0 0; font-family: 'GCartumRegular', serif; font-size: 0.7rem; color: #060638; opacity: 0.7;">
             gpt-5.4 · web search breakdown · BR
         </p>
     </div>
+    <div style="text-align: center; padding: 20px 0 10px 0; border-bottom: 3px solid #e72a1c;">
 """, unsafe_allow_html=True)
 
 # ─── Extração — idêntica ao Colab ─────────────────────────────────────────────
@@ -110,8 +111,6 @@ def agrupa_por_dominio(fontes):
 
 
 # ─── UI ───────────────────────────────────────────────────────────────────────
-
-st.divider()
 
 api_key = st.text_input("OpenAI API Key", type="password", placeholder="sk-...")
 prompt  = st.text_area("Prompt", placeholder="Qual é o melhor banco para investir em 2026?", height=120)
