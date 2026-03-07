@@ -21,11 +21,13 @@ st.markdown(f"""
             src: url('data:font/truetype;base64,{font_b64}') format('truetype');
         }}
     </style>
-    <div style="display: flex; align-items: center; justify-content: space-between;">
-        <img src="data:image/png;base64,{logo_b64}" style="height: 48px; width: 150px;" />
-        <h1 style="margin: 0; font-size: 2rem; font-family: 'GCartum', serif;">
-            ChatGPT Response Analyzer
+    <div style="text-align: center; padding: 20px 0 10px 0;">
+        <h1 style="margin: 0; font-family: 'GCartum', serif; font-size: 2rem;">
+            🤖🔎 ChatGPT Response Analyzer
         </h1>
+        <p style="margin: 6px 0 0 0; font-family: 'GCartum', serif; font-size: 0.95rem; color: #060638; opacity: 0.7;">
+            gpt-5.4 · web search breakdown · BR
+        </p>
     </div>
 """, unsafe_allow_html=True)
 
