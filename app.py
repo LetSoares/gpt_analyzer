@@ -13,7 +13,7 @@ def get_image_base64(path):
 
 logo_b64 = get_image_base64("assets/logo-leticia.png")
 font_b64_bold = get_image_base64("assets/GCARTURM-BOLD.TTF")
-font_b64_thin = get_image_base64("assets/GCARTURM-THIN.TTF")
+font_b64_thin = get_image_base64("assets/GCARTURM-THIN.OTF")
 
 st.markdown(f"""
     <style>
