@@ -27,25 +27,21 @@ st.markdown(f"""
         }}
 
         /* ── Fonte nos inputs ── */
-        html, body, label, input, textarea, button,
+        label, input, textarea, button,
         [data-testid="stTextInput"] *,
         [data-testid="stTextArea"] *,
         [data-testid="stButton"] * {{
             font-family: 'GCartumRegular', serif !important;
         }}
 
-        /* ── Garante que ícones do Streamlit não sejam afetados ── */
+        /* ── Protege ícones e setas do Streamlit ── */
         [data-testid="stMetric"] *,
         [class*="arrow"] *,
-        span[data-testid] {{
-            font-family: sans-serif !important;
-        }}
-        
-        /* ── Ícones dos toggles ── */
-        [data-testid="stExpander"] summary svg,
-        [data-testid="stExpander"] summary span,
-        button[kind="expanderToggle"] *,
-        details summary * {{
+        span[data-testid],
+        [data-testid="stExpander"] summary p,
+        [data-testid="stExpander"] summary svg *,
+        .streamlit-expanderHeader svg,
+        [class*="st-emotion-cache"] svg {{
             font-family: sans-serif !important;
         }}
 
