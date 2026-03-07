@@ -128,7 +128,7 @@ if run:
                 st.divider()
 
                 # ── 2. Buscas realizadas ──────────────────────────────────────
-                with st.expander(f"## Buscas realizadas pelo modelo ({len(r['queries'])})"):
+                with st.expander(f"Buscas realizadas pelo modelo ({len(r['queries'])})"):
                     if r["queries"]:
                         for q in r["queries"]:
                             st.markdown(f"- 🔍 {q}")
@@ -136,7 +136,7 @@ if run:
                         st.caption("Nenhuma busca identificada.")
 
                 # ── 3. Fontes citadas ─────────────────────────────────────────
-                with st.expander(f"## Fontes citadas ({len(r['fontes_citadas'])})"):
+                with st.expander(f"Fontes citadas ({len(r['fontes_citadas'])})"):
                     if r["fontes_citadas"]:
                         for fonte in r["fontes_citadas"]:
                             st.markdown(f"- [{fonte['title']}]({fonte['url']})")
@@ -144,12 +144,13 @@ if run:
                         st.caption("Nenhuma fonte citada identificada.")
 
                 # ── 4. Fontes lidas ───────────────────────────────────────────
-                with st.expander(f"## Fontes lidas ({len(r['fontes_lidas'])})"):
+                f"Fontes lidas ({len(r['fontes_lidas'])})":
                     if dominios_lidos:
                         for dominio, paginas in dominios_lidos:
-                            st.markdown(f"**🌐 {dominio}** ({len(paginas)} página{'s' if len(paginas) > 1 else ''})")
-                            for p in paginas:
-                                st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;- [{p['title']}]({p['url']})")
+                            label = f"🌐 {dominio} ({len(paginas)} página{'s' if len(paginas) > 1 else ''})"
+                            with st.expander(label):
+                                for p in paginas:
+                                    st.markdown(f"- [{p['title']}]({p['url']})")
                     else:
                         st.caption("Nenhuma fonte lida identificada.")
 
