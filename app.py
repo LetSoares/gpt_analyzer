@@ -72,16 +72,10 @@ st.markdown("""
         [data-testid="stButton"] button {
             background-color: #e72a1c !important;
             color: #ffffff !important;
-            border: 1px solid #060638 !important;
+            border: 2px solid #060638 !important;
+            border-radius: 20px !important;
             font-family: 'GCartumBold', serif !important;
-            transition: opacity 0.2s ease !important;
-        }
-        [data-testid="stButton"] button:hover {
-            background-color: #e72a1c !important;
-            border-color: #060638 !important;
-            opacity: 0.75 !important;
-        }
-        
+             }                
     </style>
 """, unsafe_allow_html=True)
 
