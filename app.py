@@ -25,7 +25,7 @@ st.markdown(f"""
         <h1 style="margin: 0; font-family: 'GCartum', serif; font-size: 2rem;">
             🤖🔎 ChatGPT Response Analyzer
         </h1>
-        <p style="margin: 6px 0 0 0; font-family: 'GCartum', serif; font-size: 0.95rem; color: #060638; opacity: 0.7;">
+        <p style="margin: 4px 0 0 0; font-family: 'GCartum', serif; font-size: 0.95rem; color: #060638; opacity: 0.7;">
             gpt-5.4 · web search breakdown · BR
         </p>
     </div>
