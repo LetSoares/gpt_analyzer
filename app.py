@@ -93,10 +93,10 @@ st.markdown("""
 
 st.markdown(f"""
     <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px;">
-        <span style="font-family: 'GCartumRegular', serif; font-size: 0.85rem; color: #060638; opacity: 0.7;">
+        <span style="font-family: 'GCartumRegular', serif; font-size: 0.5rem; color: #060638; opacity: 0.7;">
             Criado por
         </span>
-        <img src="data:image/png;base64,{logo_b64}" style="height: 48px; width: auto;" />
+        <img src="data:image/png;base64,{logo_b64}" style="height: 67px; width: auto;" />
     </div>
 """, unsafe_allow_html=True)
 
