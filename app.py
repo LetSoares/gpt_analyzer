@@ -58,7 +58,15 @@ st.markdown(f"""
         }}
 
         /* ── Caixas de input e textarea ── */
-        [data-testid="stTextInput"] input,
+        [data-testid="stTextInput"] input {{
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 2px solid #060638 !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 15px rgba(231, 42, 28, 0.4) !important;
+            font-family: 'GCartumRegular', serif !important;
+        }}
+
         [data-testid="stTextArea"] textarea {{
             background-color: #ffffff !important;
             color: #000000 !important;
