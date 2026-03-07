@@ -223,9 +223,9 @@ col_key, col_model = st.columns([3, 1])
 with col_key:
     api_key = st.text_input("OpenAI API Key", type="password", placeholder="sk-...")
 with col_model:
-    model = st.selectbox("Modelo", ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo"], index=0)
+    model = st.selectbox("Modelo", ["gpt-5.4","gpt-5", "gpt-5-mini", "gpt-4"], index=0)
 
-prompt = st.text_area("Seu Prompt", placeholder="Ex: Qual é o melhor banco para investir em 2026?", height=120)
+prompt = st.text_area("Seu Prompt", placeholder="Ex: Qual é o melhor...?", height=120)
 
 st.markdown(
     '<div class="info-box">🔒 Sua API key não é salva em nenhum lugar — usada apenas nesta sessão.</div>',
@@ -251,8 +251,7 @@ if run:
                         "type": "web_search_preview",
                         "user_location": {
                             "type": "approximate",
-                            "country": "BR",
-                            "city": "São Paulo",
+                            "country": "BR"                            
                         },
                     }],
                     tool_choice="required",
