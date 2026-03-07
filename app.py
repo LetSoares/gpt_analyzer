@@ -55,11 +55,11 @@ st.markdown("""
         /* ── Caixas de input e textarea ── */
         [data-testid="stTextInput"] input,
         [data-testid="stTextArea"] textarea {
-            background-color: #060638 !important;
-            color: #ffffff !important;
+            background-color: #ffffff !important;
+            color: #060638 !important;
             border: 1px solid #e72a1c !important;
             border-radius: 6px !important;
-            font-family: 'GCartum', serif !important;
+            font-family: 'GCartumRegular', serif !important;
         }
 
         /* ── Placeholder ── */
