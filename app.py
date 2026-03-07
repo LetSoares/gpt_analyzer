@@ -52,7 +52,7 @@ st.markdown(f"""
 st.markdown("""
     <style>
         /* ── Fonte em todos os textos ── */
-        html, body, [class*="st-"], label, p, div, input, textarea, button {
+        html, body, [class*="st-"], label,input, textarea, button {
             font-family: 'GCartumRegular', serif !important;
         }
 
