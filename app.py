@@ -245,7 +245,7 @@ if run:
                 st.exception(e)
 
 st.markdown(f"""
-    <div style="display: flex; justify-content: center; margin-top: 8px; padding: 20px 0;">
+    <div style="display: flex; justify-content: center; margin-top: 5px; padding: 20px 0;">
         <img src="data:image/png;base64,{logo_b64}" style="height: 100px; width: auto;" />
     </div>
 """, unsafe_allow_html=True)
