@@ -56,9 +56,10 @@ st.markdown("""
         [data-testid="stTextInput"] input,
         [data-testid="stTextArea"] textarea {
             background-color: #ffffff !important;
-            color: #060638 !important;
-            border: 1px solid #e72a1c !important;
+            color: #000000 !important;
+            border: 1px solid #060638 !important;
             border-radius: 6px !important;
+            box-shadow: 0 4px 15px rgba(231, 42, 28, 0.8) !important;
             font-family: 'GCartumRegular', serif !important;
         }
 
