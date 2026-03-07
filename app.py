@@ -107,8 +107,7 @@ if run:
                         "type": "web_search",
                         "user_location": {
                             "type": "approximate",
-                            "country": "BR",
-                            "city": "São Paulo",
+                            "country": "BR"
                         },
                     }],
                     tool_choice="required",
@@ -130,27 +129,25 @@ if run:
                 st.divider()
 
                 # ── 2. Buscas realizadas ──────────────────────────────────────
-                st.markdown("## Buscas realizadas pelo modelo")
+                st.markdown.expander("## Buscas realizadas pelo modelo")
                 if r["queries"]:
                     for q in r["queries"]:
-                        with st.expander(f"🔍 {q}"):
-                            st.write(q)
+                        st.write(q)
                 else:
                     st.caption("Nenhuma busca identificada.")
                 st.divider()
 
                 # ── 3. Fontes citadas ─────────────────────────────────────────
-                st.markdown("## Fontes citadas")
+                st.markdown.expander("## Fontes citadas")
                 if r["fontes_citadas"]:
                     for fonte in r["fontes_citadas"]:
-                        with st.expander(fonte["title"]):
-                            st.markdown(f"[{fonte['url']}]({fonte['url']})")
+                        st.markdown(f"[{fonte['title']}]({fonte['url']})")
                 else:
                     st.caption("Nenhuma fonte citada identificada.")
                 st.divider()
 
                 # ── 4. Fontes lidas ───────────────────────────────────────────
-                st.markdown("## Fontes lidas")
+                st.markdown.expand("## Fontes lidas")
                 if dominios_lidos:
                     for dominio, paginas in dominios_lidos:
                         label = f"🌐 {dominio} ({len(paginas)} página{'s' if len(paginas) > 1 else ''})"
