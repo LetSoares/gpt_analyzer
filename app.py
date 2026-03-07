@@ -6,11 +6,18 @@ from openai import OpenAI
 st.set_page_config(page_title="GPT Response Analyzer", page_icon="🔍", layout="centered")
 
 # ─── Brand CSS ────────────────────────────────────────────────────────────────
-logo = "assets/logo-leticia-.png"
-fonte = "assets/GCARTUM-BOLD.TTF"  
-title = "ChatGPT Response Analyzer"
+def get_image_base64(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
 
+logo_b64 = get_image_base64("assets/logo-leticia-.png")
 
+st.markdown(f"""
+    <div style="display: flex; align-items: center; gap: 12px;">
+        <img src="data:image/png;base64,{logo_b64}" style="height: 48px; width: auto;" />
+        <h1 style="margin: 0; font-size: 2rem;">🔍 GPT Response Analyzer</h1>
+    </div>
+""", unsafe_allow_html=True)
 
 # ─── Extração — idêntica ao Colab ─────────────────────────────────────────────
 
