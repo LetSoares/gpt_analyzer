@@ -25,9 +25,67 @@ st.markdown(f"""
             font-family: 'GCartumRegular';
             src: url('data:font/truetype;base64,{font_b64_reg}') format('truetype');
         }}
+
+        /* ── Fonte nos inputs ── */
+        html, body, label, input, textarea, button,
+        [data-testid="stTextInput"] *,
+        [data-testid="stTextArea"] *,
+        [data-testid="stButton"] * {{
+            font-family: 'GCartumRegular', serif !important;
+        }}
+
+        /* ── Garante que ícones do Streamlit não sejam afetados ── */
+        [data-testid="stMetric"] *,
+        [class*="arrow"] *,
+        span[data-testid] {{
+            font-family: sans-serif !important;
+        }}
+
+        /* ── Labels dos inputs ── */
+        [data-testid="stTextInput"] label,
+        [data-testid="stTextArea"] label {{
+            color: #000000 !important;
+            font-family: 'GCartumBold', serif !important;
+            font-size: 15px;
+        }}
+
+        /* ── Caixas de input e textarea ── */
+        [data-testid="stTextInput"] input,
+        [data-testid="stTextArea"] textarea {{
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 2px solid #060638 !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 15px rgba(231, 42, 28, 0.4) !important;
+            font-family: 'GCartumRegular', serif !important;
+        }}
+
+        /* ── Placeholder ── */
+        input::placeholder,
+        textarea::placeholder {{
+            color: rgba(0, 0, 0, 0.4) !important;
+            opacity: 1 !important;
+            -webkit-text-fill-color: rgba(0, 0, 0, 0.4) !important;
+        }}
+
+        /* ── Botão ── */
+        [data-testid="stButton"] button {{
+            background-color: #e72a1c !important;
+            color: #ffffff !important;
+            border: 2px solid #060638 !important;
+            border-radius: 10px !important;
+            font-family: 'GCartumBold', serif !important;
+            transition: box-shadow 0.2s ease !important;
+        }}
+        [data-testid="stButton"] button:hover {{
+            background-color: #e72a1c !important;
+            border-color: #060638 !important;
+            box-shadow: 0 4px 15px rgba(231, 42, 28, 0.8) !important;
+        }}
     </style>
+
     <div style="text-align: center; padding: 20px 0 5px 0;">
-        <h1 style="margin: 0; font-family: 'GCartumBold', serif; font-size: 2rem; color = '#060638'">
+        <h1 style="margin: 0; font-family: 'GCartumBold', serif; font-size: 2rem; color: #060638;">
             🔎 ChatGPT Response Analyzer
         </h1>
         <p style="margin: 2px 0 0 0; font-family: 'GCartumRegular', serif; font-size: 0.7rem; color: #060638; opacity: 0.7;">
@@ -46,54 +104,7 @@ st.markdown(f"""
             </a>
         </div>
     </div>
-    <div style="text-align: center; padding: 10px 0 10px 0; border-bottom: 3px solid #e72a1c;">
-""", unsafe_allow_html=True)
-
-st.markdown("""
-    <style>
-        /* ── Fonte em todos os textos ── */
-        html, body, label, input, textarea, button,
-        [data-testid="stTextInput"] *,
-        [data-testid="stTextArea"] *,
-        [data-testid="stButton"] * {
-            font-family: 'GCartumRegular', serif !important;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
-        /* ── Labels dos inputs ── */
-        [data-testid="stTextInput"] label,
-        [data-testid="stTextArea"] label {
-            color: #000000 !important;
-            font-family: 'GCartumBold', serif !important;
-            font-size:15px;
-        }
-
-        /* ── Caixas de input e textarea ── */
-        [data-testid="stTextInput"] input,
-        [data-testid="stTextArea"] textarea {
-            background-color: #ffffff !important;
-            color: #000000 !important;
-            border: 2px solid #060638 !important;
-            border-radius: 8px !important;
-            box-shadow: 0 4px 15px rgba(231, 42, 28, 0.4) !important;
-            font-family: 'GCartumRegular', serif !important;
-        }
-
-        /* ── Botão ── */
-        [data-testid="stButton"] button {
-            background-color: #e72a1c !important;
-            color: #ffffff !important;
-            border: 2px solid #060638 !important;
-            border-radius: 10px !important;
-            font-family: 'GCartumBold', serif !important;
-             }     
-        [data-testid="stButton"] button:hover {
-            background-color: #e72a1c !important;
-            border-color: #060638 !important;
-            box-shadow: 0 4px 15px rgba(231, 42, 28, 0.8) !important;
-        }
-    </style>
+    <div style="border-bottom: 3px solid #e72a1c; margin: 10px 0;"></div>
 """, unsafe_allow_html=True)
 
 # ─── Extração — idêntica ao Colab ─────────────────────────────────────────────
