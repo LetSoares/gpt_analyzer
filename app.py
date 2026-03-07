@@ -79,7 +79,7 @@ st.markdown("""
         [data-testid="stButton"] button:hover {
             background-color: #e72a1c !important;
             border-color: #060638 !important;
-            box-shadow: 0 4px 15px rgba(231, 42, 28, 0.4) !important;
+            box-shadow: 0 4px 15px rgba(231, 42, 28, 0.8) !important;
         }
     </style>
 """, unsafe_allow_html=True)
