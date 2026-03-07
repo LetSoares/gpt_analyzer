@@ -128,34 +128,33 @@ if run:
                 st.markdown(r["resposta"])
                 st.divider()
 
-                # ── 2. Buscas realizadas ──────────────────────────────────────
-                st.markdown.expander("## Buscas realizadas pelo modelo")
-                if r["queries"]:
-                    for q in r["queries"]:
-                        st.write(q)
-                else:
-                    st.caption("Nenhuma busca identificada.")
+               # ── 2. Buscas realizadas ──────────────────────────────────────
+               with st.expander(f"## Buscas realizadas pelo modelo ({len(r['queries'])})"):
+                    if r["queries"]:
+                        for q in r["queries"]:
+                            st.markdown(f"- 🔍 {q}")
+                    else:
+                        st.caption("Nenhuma busca identificada.")
                 st.divider()
 
                 # ── 3. Fontes citadas ─────────────────────────────────────────
-                st.markdown.expander("## Fontes citadas")
-                if r["fontes_citadas"]:
-                    for fonte in r["fontes_citadas"]:
-                        st.markdown(f"[{fonte['title']}]({fonte['url']})")
-                else:
-                    st.caption("Nenhuma fonte citada identificada.")
-                st.divider()
+                with st.expander(f"## Fontes citadas ({len(r['fontes_citadas'])})"):
+                    if r["fontes_citadas"]:
+                        for fonte in r["fontes_citadas"]:
+                            st.markdown(f"- [{fonte['title']}]({fonte['url']})")
+                    else:
+                        st.caption("Nenhuma fonte citada identificada.")
+                                st.divider()
 
                 # ── 4. Fontes lidas ───────────────────────────────────────────
-                st.markdown.expand("## Fontes lidas")
-                if dominios_lidos:
-                    for dominio, paginas in dominios_lidos:
-                        label = f"🌐 {dominio} ({len(paginas)} página{'s' if len(paginas) > 1 else ''})"
-                        with st.expander(label):
+                with st.expander(f"## Fontes lidas ({len(r['fontes_lidas'])})"):
+                    if dominios_lidos:
+                        for dominio, paginas in dominios_lidos:
+                            st.markdown(f"**🌐 {dominio}** ({len(paginas)} página{'s' if len(paginas) > 1 else ''})")
                             for p in paginas:
-                                st.markdown(f"- [{p['title']}]({p['url']})")
-                else:
-                    st.caption("Nenhuma fonte lida identificada.")
+                                st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;- [{p['title']}]({p['url']})")
+                    else:
+                        st.caption("Nenhuma fonte lida identificada.")
 
                 # ── Debug ─────────────────────────────────────────────────────
                 with st.expander("🐛 Output bruto da API"):
