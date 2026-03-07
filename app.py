@@ -72,12 +72,11 @@ st.markdown("""
             background-color: #060638 !important;
             color: #ffffff !important;
             border: 1px solid #e72a1c !important;
-            font-family: 'GCartum', serif !important;
+            font-family: 'GCartumBold', serif !important;
         }
         [data-testid="stButton"] button:hover {
             background-color: #e72a1c !important;
-            border-color: #e72a1c !important;
-        }
+                    }
     </style>
 """, unsafe_allow_html=True)
 
