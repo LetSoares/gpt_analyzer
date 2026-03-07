@@ -13,7 +13,7 @@ def get_image_base64(path):
 
 logo_b64 = get_image_base64("assets/logo-leticia.png")
 font_b64_bold = get_image_base64("assets/GCARTURM-BOLD.TTF")
-font_b64_thin = get_image_base64("assets/GCARTURM-THIN.OTF")
+font_b64_reg = get_image_base64("assets/GCARTURM-REGULAR.TTF")
 
 st.markdown(f"""
     <style>
@@ -22,15 +22,15 @@ st.markdown(f"""
             src: url('data:font/truetype;base64,{font_b64_bold}') format('truetype');
         }}
         @font-face {{
-            font-family: 'GCartumThin';
-            src: url('data:font/truetype;base64,{font2_b64_thin}') format('truetype');
+            font-family: 'GCartumRegular';
+            src: url('data:font/truetype;base64,{font2_b64_reg}') format('truetype');
         }}
     </style>
     <div style="text-align: center; padding: 20px 0 5px 0;">
         <h1 style="margin: 0; font-family: 'GCartumBold', serif; font-size: 2rem;">
             🤖🔎 ChatGPT Response Analyzer
         </h1>
-        <p style="margin: 2px 0 0 0; font-family: 'GCartumThin', serif; font-size: 0.7rem; color: #060638; opacity: 0.7;">
+        <p style="margin: 2px 0 0 0; font-family: 'GCartumRegular', serif; font-size: 0.7rem; color: #060638; opacity: 0.7;">
             gpt-5.4 · web search breakdown · BR
         </p>
     </div>
