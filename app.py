@@ -70,14 +70,12 @@ st.markdown("""
 
         /* ── Botão ── */
         [data-testid="stButton"] button {
-            background-color: #060638 !important;
+            background-color: #e72a1c !important;
             color: #ffffff !important;
             border: 1px solid #e72a1c !important;
             font-family: 'GCartumBold', serif !important;
         }
-        [data-testid="stButton"] button:hover {
-            background-color: #e72a1c !important;
-                    }
+        
     </style>
 """, unsafe_allow_html=True)
 
