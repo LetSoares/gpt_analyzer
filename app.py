@@ -22,7 +22,7 @@ st.markdown(f"""
         }}
     </style>
     <div style="display: flex; align-items: center; justify-content: space-between;">
-        <img src="data:image/png;base64,{logo_b64}" style="height: 48px; width: 50px;" />
+        <img src="data:image/png;base64,{logo_b64}" style="height: 48px; width: 150px;" />
         <h1 style="margin: 0; font-size: 2rem; font-family: 'GCartum', serif;">
             ChatGPT Response Analyzer
         </h1>
