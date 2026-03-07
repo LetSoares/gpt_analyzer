@@ -87,6 +87,7 @@ def agrupa_por_dominio(fontes):
 
 # ─── UI ───────────────────────────────────────────────────────────────────────
 
+st.image("assets/logo-leticia-.png")
 st.title("🔍 GPT Response Analyzer")
 st.caption("gpt-5.4 · web_search · BR")
 st.divider()
