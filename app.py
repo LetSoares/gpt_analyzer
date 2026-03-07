@@ -41,14 +41,15 @@ st.markdown("""
     <style>
         /* ── Fonte em todos os textos ── */
         html, body, [class*="st-"], label, p, div, input, textarea, button {
-            font-family: 'GCartum', serif !important;
+            font-family: 'GCartumRegular', serif !important;
         }
 
         /* ── Labels dos inputs ── */
         [data-testid="stTextInput"] label,
         [data-testid="stTextArea"] label {
-            color: #060638 !important;
-            font-family: 'GCartum', serif !important;
+            color: #000000 !important;
+            font-family: 'GCartumBold', serif !important;
+            font-size:15px;
         }
 
         /* ── Caixas de input e textarea ── */
