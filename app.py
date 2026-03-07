@@ -91,6 +91,15 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+st.markdown(f"""
+    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px;">
+        <span style="font-family: 'GCartum', serif; font-size: 0.85rem; color: #060638; opacity: 0.7;">
+            Criado por
+        </span>
+        <img src="data:image/png;base64,{logo_b64}" style="height: 28px; width: auto;" />
+    </div>
+""", unsafe_allow_html=True)
+
 # ─── Extração — idêntica ao Colab ─────────────────────────────────────────────
 
 def extract(response):
