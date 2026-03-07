@@ -46,12 +46,11 @@ def extract(response):
                             "title": getattr(annotation, "title", None) or url_limpa,
                         })
 
-
     fontes_apenas_lidas = [
         f for f in fontes_lidas
         if re.sub(r'\?utm_source=openai$', '', f["url"]) not in urls_citadas_vistas
     ]
-    
+
     resposta_final = response.output[-1].content[0].text
 
     return {
@@ -107,7 +106,7 @@ if run:
                         "type": "web_search",
                         "user_location": {
                             "type": "approximate",
-                            "country": "BR"
+                            "country": "BR",
                         },
                     }],
                     tool_choice="required",
@@ -128,31 +127,31 @@ if run:
                 st.markdown(r["resposta"])
                 st.divider()
 
-               # ── 2. Buscas realizadas ──────────────────────────────────────
-               with st.expander(f"## Buscas realizadas pelo modelo ({len(r['queries'])})"):
-                  if r["queries"]:
-                      for q in r["queries"]:
-                         st.markdown(f"- 🔍 {q}")
-                  else:
-                     st.caption("Nenhuma busca identificada.")
-            
+                # ── 2. Buscas realizadas ──────────────────────────────────────
+                with st.expander(f"## Buscas realizadas pelo modelo ({len(r['queries'])})"):
+                    if r["queries"]:
+                        for q in r["queries"]:
+                            st.markdown(f"- 🔍 {q}")
+                    else:
+                        st.caption("Nenhuma busca identificada.")
+
                 # ── 3. Fontes citadas ─────────────────────────────────────────
                 with st.expander(f"## Fontes citadas ({len(r['fontes_citadas'])})"):
-                     if r["fontes_citadas"]:
-                         for fonte in r["fontes_citadas"]:
-                             st.markdown(f"- [{fonte['title']}]({fonte['url']})")
-                     else:
-                         st.caption("Nenhuma fonte citada identificada.")
-                
+                    if r["fontes_citadas"]:
+                        for fonte in r["fontes_citadas"]:
+                            st.markdown(f"- [{fonte['title']}]({fonte['url']})")
+                    else:
+                        st.caption("Nenhuma fonte citada identificada.")
+
                 # ── 4. Fontes lidas ───────────────────────────────────────────
                 with st.expander(f"## Fontes lidas ({len(r['fontes_lidas'])})"):
-                  if dominios_lidos:
-                      for dominio, paginas in dominios_lidos:
-                          st.markdown(f"**🌐 {dominio}** ({len(paginas)} página{'s' if len(paginas) > 1 else ''})")
-                          for p in paginas:
-                              st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;- [{p['title']}]({p['url']})")
-                  else:
-                      st.caption("Nenhuma fonte lida identificada.")
+                    if dominios_lidos:
+                        for dominio, paginas in dominios_lidos:
+                            st.markdown(f"**🌐 {dominio}** ({len(paginas)} página{'s' if len(paginas) > 1 else ''})")
+                            for p in paginas:
+                                st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;- [{p['title']}]({p['url']})")
+                    else:
+                        st.caption("Nenhuma fonte lida identificada.")
 
                 # ── Debug ─────────────────────────────────────────────────────
                 with st.expander("🐛 Output bruto da API"):
