@@ -50,10 +50,20 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 st.markdown("""
-    <style>
-        /* ── Fonte em todos os textos ── */
-        html, body, [class*="st-"], label,input, textarea, button {
-            font-family: 'GCartumRegular', serif !important;
+    /* ── Fonte em todos os textos ── */
+    html, body, label, input, textarea, button,
+    [data-testid="stTextInput"] *,
+    [data-testid="stTextArea"] *,
+    [data-testid="stButton"] * {
+        font-family: 'GCartumRegular', serif !important;
+    }
+    
+    /* ── Garante que ícones do Streamlit não sejam afetados ── */
+    [data-testid="stMetric"] *,
+    [class*="arrow"] *,
+    span[data-testid] {
+        font-family: sans-serif !important;
+    }
         }
 
         /* ── Labels dos inputs ── */
