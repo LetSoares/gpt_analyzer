@@ -11,12 +11,21 @@ def get_image_base64(path):
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-logo_b64 = get_image_base64("assets/logo-leticia-.png")
+logo_b64 = get_image_base64("assets/logo-leticia.png")
+font_b64 = get_image_base64("assets/GCARTUM-BOLD.TTF")
 
 st.markdown(f"""
-    <div style="display: flex; align-items: center; gap: 12px;">
+    <style>
+        @font-face {{
+            font-family: 'GCartum';
+            src: url('data:font/truetype;base64,{font_b64}') format('truetype');
+        }}
+    </style>
+    <div style="display: flex; align-items: center; justify-content: space-between;">
         <img src="data:image/png;base64,{logo_b64}" style="height: 48px; width: auto;" />
-        <h1 style="margin: 0; font-size: 2rem;">🔍 GPT Response Analyzer</h1>
+        <h1 style="margin: 0; font-size: 2rem; font-family: 'GCartum', serif;">
+            🔍 GPT Response Analyzer
+        </h1>
     </div>
 """, unsafe_allow_html=True)
 
