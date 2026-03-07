@@ -37,6 +37,50 @@ st.markdown(f"""
     <div style="text-align: center; padding: 10px 0 10px 0; border-bottom: 3px solid #e72a1c;">
 """, unsafe_allow_html=True)
 
+st.markdown("""
+    <style>
+        /* ── Fonte em todos os textos ── */
+        html, body, [class*="st-"], label, p, div, input, textarea, button {
+            font-family: 'GCartum', serif !important;
+        }
+
+        /* ── Labels dos inputs ── */
+        [data-testid="stTextInput"] label,
+        [data-testid="stTextArea"] label {
+            color: #060638 !important;
+            font-family: 'GCartum', serif !important;
+        }
+
+        /* ── Caixas de input e textarea ── */
+        [data-testid="stTextInput"] input,
+        [data-testid="stTextArea"] textarea {
+            background-color: #060638 !important;
+            color: #ffffff !important;
+            border: 1px solid #e72a1c !important;
+            border-radius: 6px !important;
+            font-family: 'GCartum', serif !important;
+        }
+
+        /* ── Placeholder ── */
+        [data-testid="stTextInput"] input::placeholder,
+        [data-testid="stTextArea"] textarea::placeholder {
+            color: rgba(255, 255, 255, 0.4) !important;
+        }
+
+        /* ── Botão ── */
+        [data-testid="stButton"] button {
+            background-color: #060638 !important;
+            color: #ffffff !important;
+            border: 1px solid #e72a1c !important;
+            font-family: 'GCartum', serif !important;
+        }
+        [data-testid="stButton"] button:hover {
+            background-color: #e72a1c !important;
+            border-color: #e72a1c !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 # ─── Extração — idêntica ao Colab ─────────────────────────────────────────────
 
 def extract(response):
