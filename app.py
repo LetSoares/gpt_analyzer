@@ -3,12 +3,8 @@ import base64
 import streamlit as st
 from urllib.parse import urlparse
 from openai import OpenAI
-import sys
-import io
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
-st.set_page_config(page_title="GPT Response Analyzer", layout="centered")
+st.set_page_config(page_title="GPT Response Analyzer", page_icon="🔍", layout="centered")
 
 # ─── Brand CSS ────────────────────────────────────────────────────────────────
 def get_image_base64(path):
@@ -30,12 +26,23 @@ st.markdown(f"""
             src: url('data:font/truetype;base64,{font_b64_reg}') format('truetype');
         }}
 
-         /* ── Fonte nos inputs ── */
+        /* ── Fonte nos inputs ── */
         label, input, textarea, button,
         [data-testid="stTextInput"] *,
         [data-testid="stTextArea"] *,
         [data-testid="stButton"] * {{
             font-family: 'GCartumRegular', serif !important;
+        }}
+
+        /* ── Protege ícones e setas do Streamlit ── */
+        [data-testid="stMetric"] *,
+        [class*="arrow"] *,
+        span[data-testid],
+        [data-testid="stExpander"] summary p,
+        [data-testid="stExpander"] summary svg *,
+        .streamlit-expanderHeader svg,
+        [class*="st-emotion-cache"] svg {{
+            font-family: sans-serif !important;
         }}
 
         /* ── Labels dos inputs ── */
