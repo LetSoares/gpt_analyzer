@@ -45,6 +45,20 @@ st.markdown(f"""
             font-family: sans-serif !important;
         }}
 
+        /* ── Esconde seta original do expander e substitui ── */
+        [data-testid="stExpander"] summary svg {{
+            display: none !important;
+        }}
+        [data-testid="stExpander"] summary::after {{
+            content: ' ▼';
+            font-family: sans-serif !important;
+            font-size: 12px;
+            color: #060638;
+        }}
+        [data-testid="stExpander"][open] summary::after {{
+            content: ' ▲';
+        }}
+
         /* ── Labels dos inputs ── */
         [data-testid="stTextInput"] label,
         [data-testid="stTextArea"] label {{
