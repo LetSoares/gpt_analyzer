@@ -36,11 +36,6 @@ st.markdown(f"""
             color: #000000 !important;
             font-family: 'GCartumBold', serif !important;
             font-size: 15px;
-        }},
-        [data-testid="stRadio"] label {{
-            color: #000000 !important;
-            font-family: 'GCartumBold', serif !important;
-            font-size: 15px;
         }}
 
         /* ── Labels do radio ── */
