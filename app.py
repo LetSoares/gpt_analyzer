@@ -196,9 +196,9 @@ api_key = st.text_input("OpenAI API Key", type="password", placeholder="sk-...")
 
 # ── Seletor de modelo ──────────────────────────────────────────────────────────
 MODEL_OPTIONS = {
-    "gpt-5.2 · rápido e eficiente": "gpt-5.2",
-    "gpt-5.3-chat-latest · sem reasoning": "gpt-5.3-chat-latest",
-    "gpt-5.4 · alta capacidade de raciocínio": "gpt-5.4",
+    "gpt-5.2": "gpt-5.2",
+    "gpt-5.3-chat-latest": "gpt-5.3-chat-latest",
+    "gpt-5.4": "gpt-5.4",
 }
 # Modelos que NÃO suportam o parâmetro reasoning
 MODELS_SEM_REASONING = {"gpt-5.3-chat-latest"}
