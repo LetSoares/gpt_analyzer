@@ -38,6 +38,17 @@ st.markdown(f"""
             font-size: 15px;
         }}
 
+        /* ── Labels do radio ── */
+        [data-testid="stRadio"] label {{
+            color: #000000 !important;
+            font-family: 'GCartumBold', serif !important;
+            font-size: 15px;
+        }}
+        [data-testid="stRadio"] div[role="radiogroup"] label {{
+            font-family: 'GCartumRegular', serif !important;
+            font-size: 14px;
+        }}
+
         /* ── Caixas de input e textarea ── */
         [data-testid="stTextInput"] input {{
             background-color: #ffffff !important;
@@ -86,7 +97,7 @@ st.markdown(f"""
             🔎 ChatGPT Response Analyzer
         </h1>
         <p style="margin: 2px 0 0 0; font-family: 'GCartumRegular', serif; font-size: 0.7rem; color: #060638; opacity: 0.7;">
-            gpt-5.4 · web search breakdown · BR
+            web search breakdown · BR
         </p>
         <div style="display: flex; justify-content: center; gap: 16px; margin-top: 8px;">
             <a href="https://instagram.com/leticiasoares.seo" target="_blank" style="color: inherit; text-decoration: none;">
@@ -164,7 +175,7 @@ def agrupa_por_dominio(fontes):
     """Recebe lista de {"url", "title"} e agrupa por domínio."""
     dominios = {}
     for fonte in fontes:
-        if not fonte.get("url"):  # ← proteção aqui
+        if not fonte.get("url"):
             continue
         url = re.sub(r'\?utm_source=openai$', '', fonte["url"])
         url = re.sub(r'\?utm_source=openai&', '?', url)
@@ -182,8 +193,23 @@ def agrupa_por_dominio(fontes):
 # ─── UI ───────────────────────────────────────────────────────────────────────
 
 api_key = st.text_input("OpenAI API Key", type="password", placeholder="sk-...")
-prompt  = st.text_area("Prompt", placeholder="Qual é o melhor banco para investir em 2026?", height=120)
-run     = st.button("Analisar", use_container_width=True)
+
+# ── Seletor de modelo ──────────────────────────────────────────────────────────
+MODEL_OPTIONS = {
+    "gpt-5.2 · rápido e eficiente": "gpt-5.2",
+    "gpt-5.4 · alta capacidade de raciocínio": "gpt-5.4",
+}
+model_label = st.radio(
+    "Modelo",
+    options=list(MODEL_OPTIONS.keys()),
+    index=1,          # gpt-5.4 selecionado por padrão
+    horizontal=True,
+)
+selected_model = MODEL_OPTIONS[model_label]
+# ──────────────────────────────────────────────────────────────────────────────
+
+prompt = st.text_area("Prompt", placeholder="Qual é o melhor banco para investir em 2026?", height=120)
+run    = st.button("Analisar", use_container_width=True)
 
 # ─── Execução ─────────────────────────────────────────────────────────────────
 
@@ -193,12 +219,12 @@ if run:
     elif not prompt.strip():
         st.error("Insira um prompt.")
     else:
-        with st.spinner("Aguardando gpt-5.4..."):
+        with st.spinner(f"Aguardando {selected_model}..."):
             try:
                 client = OpenAI(api_key=api_key.strip())
 
                 resp = client.responses.create(
-                    model="gpt-5.4",
+                    model=selected_model,          # ← modelo dinâmico
                     tools=[{
                         "type": "web_search",
                         "user_location": {
@@ -216,7 +242,7 @@ if run:
                 r = extract(resp)
                 dominios_lidos = agrupa_por_dominio(r["fontes_lidas"])
 
-                st.success("Concluído!")
+                st.success(f"Concluído! _(modelo: {selected_model})_")
                 st.divider()
 
                 # ── 1. Resposta ───────────────────────────────────────────────
