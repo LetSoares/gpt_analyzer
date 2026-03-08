@@ -36,6 +36,11 @@ st.markdown(f"""
             color: #000000 !important;
             font-family: 'GCartumBold', serif !important;
             font-size: 15px;
+        }},
+        [data-testid="stRadio"] label {{
+            color: #000000 !important;
+            font-family: 'GCartumBold', serif !important;
+            font-size: 15px;
         }}
 
         /* ── Labels do radio ── */
@@ -47,6 +52,7 @@ st.markdown(f"""
         [data-testid="stRadio"] div[role="radiogroup"] label {{
             font-family: 'GCartumRegular', serif !important;
             font-size: 14px;
+            justify-content: center;
         }}
 
         /* ── Caixas de input e textarea ── */
