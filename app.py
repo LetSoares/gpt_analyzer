@@ -197,12 +197,16 @@ api_key = st.text_input("OpenAI API Key", type="password", placeholder="sk-...")
 # ── Seletor de modelo ──────────────────────────────────────────────────────────
 MODEL_OPTIONS = {
     "gpt-5.2 · rápido e eficiente": "gpt-5.2",
+    "gpt-5.3-chat-latest · sem reasoning": "gpt-5.3-chat-latest",
     "gpt-5.4 · alta capacidade de raciocínio": "gpt-5.4",
 }
+# Modelos que NÃO suportam o parâmetro reasoning
+MODELS_SEM_REASONING = {"gpt-5.3-chat-latest"}
+
 model_label = st.radio(
     "Modelo",
     options=list(MODEL_OPTIONS.keys()),
-    index=1,          # gpt-5.4 selecionado por padrão
+    index=2,          # gpt-5.4 selecionado por padrão
     horizontal=True,
 )
 selected_model = MODEL_OPTIONS[model_label]
@@ -223,8 +227,9 @@ if run:
             try:
                 client = OpenAI(api_key=api_key.strip())
 
-                resp = client.responses.create(
-                    model=selected_model,          # ← modelo dinâmico
+                # Parâmetros base — comuns a todos os modelos
+                params = dict(
+                    model=selected_model,
                     tools=[{
                         "type": "web_search",
                         "user_location": {
@@ -233,11 +238,16 @@ if run:
                         },
                     }],
                     tool_choice="required",
-                    reasoning={"effort": "high"},
                     store=False,
                     include=["web_search_call.results", "web_search_call.action.sources"],
                     input=prompt,
                 )
+
+                # Adiciona reasoning apenas para modelos que suportam
+                if selected_model not in MODELS_SEM_REASONING:
+                    params["reasoning"] = {"effort": "high"}
+
+                resp = client.responses.create(**params)
 
                 r = extract(resp)
                 dominios_lidos = agrupa_por_dominio(r["fontes_lidas"])
