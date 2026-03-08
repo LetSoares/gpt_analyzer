@@ -147,7 +147,7 @@ def extract(response):
 
     fontes_apenas_lidas = [
         f for f in fontes_lidas
-        if re.sub(r'\?utm_source=openai$', '', f["url"]) not in urls_citadas_vistas
+        if f.get("url") and re.sub(r'\?utm_source=openai$', '', f["url"]) not in urls_citadas_vistas
     ]
 
     resposta_final = response.output[-1].content[0].text
@@ -164,6 +164,8 @@ def agrupa_por_dominio(fontes):
     """Recebe lista de {"url", "title"} e agrupa por domínio."""
     dominios = {}
     for fonte in fontes:
+        if not fonte.get("url"):  # ← proteção aqui
+            continue
         url = re.sub(r'\?utm_source=openai$', '', fonte["url"])
         url = re.sub(r'\?utm_source=openai&', '?', url)
         url = re.sub(r'&utm_source=openai', '', url)
