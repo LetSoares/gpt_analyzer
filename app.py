@@ -50,13 +50,13 @@ st.markdown(f"""
             display: none !important;
         }}
         [data-testid="stExpander"] summary::after {{
-            content: ' ▼';
+            content: 'v';
             font-family: sans-serif !important;
             font-size: 12px;
             color: #060638;
         }}
         [data-testid="stExpander"][open] summary::after {{
-            content: ' ▲';
+            content: '^';
         }}
 
         /* ── Labels dos inputs ── */
