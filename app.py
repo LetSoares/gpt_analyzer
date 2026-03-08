@@ -8,7 +8,7 @@ import io
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
-st.set_page_config(page_title="GPT Response Analyzer", page_icon="🔍", layout="centered")
+st.set_page_config(page_title="GPT Response Analyzer", layout="centered")
 
 # ─── Brand CSS ────────────────────────────────────────────────────────────────
 def get_image_base64(path):
