@@ -26,8 +26,12 @@ st.markdown(f"""
             src: url('data:font/truetype;base64,{font_b64_reg}') format('truetype');
         }}
 
-               /* ── Labels dos inputs ── */
-        [data-testid="stTextInput"] label,
+        /* ── Labels dos inputs ── */
+        [data-testid="stTextInput"] label {{
+            color: #000000 !important;
+            font-family: 'GCartumBold', serif !important;
+            font-size: 15px;
+        }},
         [data-testid="stTextArea"] label {{
             color: #000000 !important;
             font-family: 'GCartumBold', serif !important;
