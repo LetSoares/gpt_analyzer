@@ -4,11 +4,6 @@ import streamlit as st
 from urllib.parse import urlparse
 from openai import OpenAI
 
-if sys.stdout.encoding != 'utf-8':
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-if sys.stderr.encoding != 'utf-8':
-    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
-
 st.set_page_config(page_title="GPT Response Analyzer", page_icon="🔍", layout="centered")
 
 # ─── Brand CSS ────────────────────────────────────────────────────────────────
@@ -31,26 +26,7 @@ st.markdown(f"""
             src: url('data:font/truetype;base64,{font_b64_reg}') format('truetype');
         }}
 
-        /* ── Fonte nos inputs ── */
-        label, input, textarea, button,
-        [data-testid="stTextInput"] *,
-        [data-testid="stTextArea"] *,
-        [data-testid="stButton"] * {{
-            font-family: 'GCartumRegular', serif !important;
-        }}
-
-        /* ── Protege ícones e setas do Streamlit ── */
-        [data-testid="stMetric"] *,
-        [class*="arrow"] *,
-        span[data-testid],
-        [data-testid="stExpander"] summary p,
-        [data-testid="stExpander"] summary svg *,
-        .streamlit-expanderHeader svg,
-        [class*="st-emotion-cache"] svg {{
-            font-family: sans-serif !important;
-        }}
-
-        /* ── Labels dos inputs ── */
+               /* ── Labels dos inputs ── */
         [data-testid="stTextInput"] label,
         [data-testid="stTextArea"] label {{
             color: #000000 !important;
